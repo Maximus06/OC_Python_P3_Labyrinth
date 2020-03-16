@@ -3,8 +3,7 @@ from sys import exit
 from .map import Map
 from .hero import Hero
 from .item import Item
-
-IMAGE_DIR = 'images/'
+from settings import IMG_GARDIAN, IMG_WALL, IMG_WIDTH, IMG_NEEDLE, IMG_ETHER, IMG_TUBE
 
 class Game:
 
@@ -23,7 +22,7 @@ class Game:
     def _init(cls):        
         
         cls.screen = pygame.display.set_mode((450, 450))
-        cls.map = Map('labyrinthe.txt')
+        cls.map = Map('labyrinth.txt')
         cls.hero = Hero(cls.map)
         cls.items = []
         cls.create_items()
@@ -35,18 +34,17 @@ class Game:
     @classmethod
     def _draw_wall(cls):
         #todo a déplacer dans la classe qui s'occupera du display
-
-        # hero_img = pygame.image.load(IMAGE_DIR + 'MacGyver.png').convert()
-        gardian_img = pygame.image.load(IMAGE_DIR + 'Gardien.png').convert()
-        wall_img = pygame.image.load(IMAGE_DIR + 'wall.png').convert()
+        
+        gardian_img = pygame.image.load(IMG_GARDIAN).convert()
+        wall_img = pygame.image.load(IMG_WALL).convert()
 
         for wall in cls.map._wall:
             x, y = wall.position            
-            cls.screen.blit(wall_img, (y * 30, x * 30))
+            cls.screen.blit(wall_img, (y * IMG_WIDTH, x * IMG_WIDTH))
 
         # Gardian position
         x, y = cls.map.end.position
-        cls.screen.blit(gardian_img, (y * 30, x * 30))               
+        cls.screen.blit(gardian_img, (y * IMG_WIDTH, x * IMG_WIDTH))               
 
     @classmethod
     def _check_events(cls):
@@ -59,8 +57,7 @@ class Game:
 
     @classmethod
     def _check_keydown_events(cls, event):
-        """Respond to keypresses"""
-        # print(f"key = {event.key} et unicode = {event.unicode}")
+        """Respond to keydown events"""        
         if event.key == pygame.K_RIGHT:
             cls.hero.move('right')
         elif event.key == pygame.K_LEFT:
@@ -72,19 +69,17 @@ class Game:
         elif event.key == pygame.K_F5:
             cls.reset()            
         # pygame map en querty donc event.key == pygame.K_q ne marche pas pour q
-        elif event.unicode == 'q' or event.unicode == 'Q':
-            # exit()
+        elif event.unicode == 'q' or event.unicode == 'Q':            
             cls.play = False
 
     @classmethod
     def create_items(cls):
         """Create the 3 items on the maps"""
-        needle = Item(cls.map, 'needle.png')
+        needle = Item(cls.map, IMG_NEEDLE)
         cls.items.append(needle)
-        ether = Item(cls.map, 'ether.png')
-        cls.items.append(ether)
-        # tube = Item(cls.map, 'tubex.png')
-        tube = Item(cls.map, 'tube.png')
+        ether = Item(cls.map, IMG_ETHER)
+        cls.items.append(ether)        
+        tube = Item(cls.map, IMG_TUBE)
         cls.items.append(tube)
 
     @classmethod
@@ -96,7 +91,7 @@ class Game:
         #Draw the labyrinth wall
         cls._draw_wall()
 
-        # MacGyver image postion
+        # MacGyver image position
         x, y = cls.hero.img_position
         # print(f'update image to {x}, {y}')
         cls.screen.blit(cls.hero.hero_img , (y, x))

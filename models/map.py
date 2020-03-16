@@ -1,16 +1,13 @@
 from random import randint
+import os
 from .position import Position
-
-PATH_CHAR = 'p'
-WALL_CHAR = 'w'
-START_CHAR = 'S'
-END_CHAR = 'E'
+from settings import PATH_CHAR, WALL_CHAR, START_CHAR, END_CHAR
 
 class Map:
-    def __init__(self, filename):
-        self.filename = filename
+    def __init__(self, file_name):
+        self.file_name = file_name
 
-    # chemins, position de départ, position arrivée and items position
+    # paths, walls, start(hero), end(guardian) and items position
         self._paths = set()
         self._start = set()
         self._end = set()
@@ -36,7 +33,7 @@ class Map:
 
     def load_from_file(self):
         """Load the map structure from file."""
-        with open(self.filename) as infile:
+        with open(self.file_name) as infile:
             for x, line in enumerate(infile):                
                 for y, char in enumerate(line):
                     if char == PATH_CHAR:
@@ -68,9 +65,8 @@ class Map:
 
         return pos
 
-def main():
-    # my_map = Map('../../labyrinthe.txt')
-    my_map = Map('labyrinthe.txt')
+def main():    
+    my_map = Map('labyrinth.txt')
     
     # print("set of wall")
     # print(my_map._wall)
@@ -80,6 +76,8 @@ def main():
     my_map.get_item_position()
     my_map.get_item_position()
     my_map.get_item_position()
+
+    print(f'\nos.getcwd =', os.getcwd())
 
 if __name__ == '__main__':
     main()

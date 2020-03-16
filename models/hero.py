@@ -1,11 +1,12 @@
 from pygame.image import load
 from .position import Position
+from settings import IMG_WIDTH, IMG_HERO
 
 class Hero:
     def __init__(self, map):
         self.map = map
         self.position = self.map.start
-        self.hero_img = load('images/' + 'MacGyver.png').convert()
+        self.hero_img = load(IMG_HERO).convert()
         # hero_img = pygame.image.load(IMAGE_DIR + 'MacGyver.png').convert()
 
     def move(self, direction):
@@ -19,8 +20,8 @@ class Hero:
     def img_position(self):
         """Return the computed Position of the hero image"""
         x, y = self.position.position
-        x *= 30
-        y *= 30
+        x *= IMG_WIDTH
+        y *= IMG_WIDTH
         return Position(x, y)
         # return x, y
         
