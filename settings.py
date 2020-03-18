@@ -9,8 +9,15 @@ APP_DIR = os.getcwd()
 # Image directory
 IMG_DIR = APP_DIR + '/images/'
 
+# Screen dimension
+SCREEN_WIDTH = 450
+SCREEN_HEIGHT = 600
+
 # Image widht
 IMG_WIDTH = 30
+
+# tick by secondes
+TICK = 20
 
 # Image Hero
 IMG_HERO = IMG_DIR + 'MacGyver.png'

@@ -6,10 +6,7 @@ class Item:
     def __init__(self, map, image):
         self.map = map
         self.position = map.get_item_position()
-        self.img = load(image).convert()        
-    
-    def __repr__(self):
-        return f'My image is {self.img} to position {self.position}'
+        self.img = load(image).convert()            
 
     @property
     def img_position(self):

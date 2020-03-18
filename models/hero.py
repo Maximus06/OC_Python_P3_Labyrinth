@@ -6,8 +6,8 @@ class Hero:
     def __init__(self, map):
         self.map = map
         self.position = self.map.start
-        self.hero_img = load(IMG_HERO).convert()
-        # hero_img = pygame.image.load(IMAGE_DIR + 'MacGyver.png').convert()
+        # self.hero_img = load(IMG_HERO).convert()
+        
 
     def move(self, direction):
         # getattr permet d'appeler une méthode de l'objet position (up, down, left ou right)        

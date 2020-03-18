@@ -1,7 +1,11 @@
 from random import randint
 import os
+import pygame
 from .position import Position
 from settings import PATH_CHAR, WALL_CHAR, START_CHAR, END_CHAR
+from settings import IMG_ETHER, IMG_NEEDLE, IMG_TUBE
+from .hero import Hero
+from .item import Item
 
 class Map:
     def __init__(self, file_name):
@@ -12,9 +16,17 @@ class Map:
         self._start = set()
         self._end = set()
         self._wall = set()
-        self._items = set()
+        self._items = set() # To mémorize the items position already created
 
-        self.load_from_file()
+        # Load the structure of the labyrinth
+        self._load_from_file()
+
+        # MacGyver
+        self.hero = Hero(self)
+
+        # The items
+        self.items = []
+        self._create_items()
 
     def __contains__(self, position):
         """Check if a position is in paths set. (is a valid path)."""
@@ -31,7 +43,7 @@ class Map:
     def is_valid_path(self, position):
         return position in self._paths
 
-    def load_from_file(self):
+    def _load_from_file(self):
         """Load the map structure from file."""
         with open(self.file_name) as infile:
             for x, line in enumerate(infile):                
@@ -64,6 +76,16 @@ class Map:
         self._items.add(pos)
 
         return pos
+
+    def _create_items(self):
+        """Create the 3 items on the maps"""
+        needle = Item(self, IMG_NEEDLE)
+        self.items.append(needle)
+        ether = Item(self, IMG_ETHER)
+        self.items.append(ether)        
+        tube = Item(self, IMG_TUBE)
+        self.items.append(tube)
+
 
 def main():    
     my_map = Map('labyrinth.txt')
