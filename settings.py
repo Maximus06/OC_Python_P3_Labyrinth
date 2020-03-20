@@ -7,11 +7,25 @@ import os
 APP_DIR = os.getcwd()
 
 # Image directory
-IMG_DIR = APP_DIR + '/images/'
+IMG_DIR = APP_DIR + '/ressources/images/'
+# Sound directory
+SOUND_DIR = APP_DIR + '/ressources/sound/'
+SOUND_VICTORY = SOUND_DIR + 'MacGyver.mp3'
+
+# Message
+HELP_MSG = 'Press Q to Quit, F5 to reset, Arrow keys to move.'
+INIT_MSG = 'MacGyver must pick up 3 objects before leaving.'
+WIN_MSG = 'Good Game, you win!'
+LOSE_MSG = 'GAME OVER! Missing objects:'
 
 # Screen dimension
 SCREEN_WIDTH = 450
-SCREEN_HEIGHT = 600
+SCREEN_HEIGHT = 500
+
+# color
+BG_COLOR = (230, 230, 230)
+WIN_COLOR = 'darkcyan'
+LOSE_COLOR = 'red'
 
 # Image widht
 IMG_WIDTH = 30
@@ -37,7 +51,3 @@ PATH_CHAR = 'p'
 WALL_CHAR = 'w'
 START_CHAR = 'S'
 END_CHAR = 'E'
-
-if __name__ == "__main__":
-    print(f'os.getcwd =', os.getcwd())
-    print(f'IMG_DIR =', IMG_DIR)

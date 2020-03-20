@@ -4,6 +4,7 @@ from .map import Map
 from .hero import Hero
 from .item import Item
 from settings import IMG_GARDIAN, IMG_WALL, IMG_WIDTH, IMG_NEEDLE, IMG_ETHER, IMG_TUBE, TICK
+from settings import WIN_COLOR, LOSE_COLOR, SOUND_VICTORY, WIN_MSG, LOSE_MSG
 from .views import View
 
 class Game:
@@ -11,9 +12,10 @@ class Game:
 
     @classmethod
     def run(cls):        
-        cls._init()
+        cls.init()
 
         cls.play = True
+        cls.end_game = False
         while cls.play:
             #Limit the tick to x frames by secondes
             pygame.time.Clock().tick(TICK)
@@ -21,9 +23,7 @@ class Game:
             cls.view.render()        
     
     @classmethod
-    def _init(cls):        
-        # the video mode must be set before loading images(in map).
-        View.set_video_mode()
+    def init(cls):        
         cls.map = Map('labyrinth.txt')        
         cls.view = View(cls.map)        
 
@@ -38,7 +38,20 @@ class Game:
 
     @classmethod
     def _check_keydown_events(cls, event):
-        """Respond to keydown events"""        
+        """Respond to keydown events"""
+        if event.key == pygame.K_F5:
+            pygame.mixer.music.stop()
+            cls.reset()
+        # Use unicode here cause pygame map in querty mode
+        elif event.unicode == 'q' or event.unicode == 'Q':            
+            cls.play = False
+        elif event.unicode == 's' or event.unicode == 'S':                        
+            pygame.mixer.music.stop()
+        
+        # game is over, we don't want to check the direction keys
+        if cls.end_game:
+            return
+            
         if event.key == pygame.K_RIGHT:
             cls.map.hero.move('right')
         elif event.key == pygame.K_LEFT:
@@ -47,16 +60,41 @@ class Game:
             cls.map.hero.move('up')
         elif event.key == pygame.K_DOWN:
             cls.map.hero.move('down')            
-        elif event.key == pygame.K_F5:
-            cls.reset()            
-        # Use unicode here cause pygame map in querty mode
-        elif event.unicode == 'q' or event.unicode == 'Q':            
-            cls.play = False        
+
+        cls._check_collision()
+
+    @classmethod
+    def _check_collision(cls):
+        """Manage Hero collisions with items and guardian"""
+        hit_item, item_name = cls.map.items_collision()
+        if hit_item:
+            # message to print
+            inventory = f'{cls.map.hero.item_number}/3'
+            msg = f"MacGyver picked up {item_name}. ({inventory})"
+            cls.view.set_text_to_print(msg)
+
+        if cls.map.is_guardian_collision():
+            cls._check_victory()
+
+    @classmethod
+    def _check_victory(cls):
+        objects_victory = {'needle', 'tube', 'ether'}
+        missing_objects = objects_victory - cls.map.hero.items        
+        if len(missing_objects) == 0:            
+            cls.view.set_text_to_print(WIN_MSG, WIN_COLOR)
+            cls.view.guardian_img = None
+            pygame.mixer.music.load(SOUND_VICTORY)
+            pygame.mixer.music.play()
+        else:            
+            # cls.view.set_text_to_print(f'GAME OVER. Il te manquait {missing_objects}', LOSE_COLOR)
+            cls.view.set_text_to_print(f'{LOSE_MSG} {missing_objects}', LOSE_COLOR)
+
+        cls.end_game = True
+    
 
     @classmethod
     def reset(cls):
-        """This method reset the game"""        
-        # cls.map = None
+        """This method launch a new game"""                
         del cls.map
         cls.run()
 

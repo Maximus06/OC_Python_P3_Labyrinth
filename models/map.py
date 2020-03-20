@@ -9,7 +9,7 @@ from .item import Item
 
 class Map:
     def __init__(self, file_name):
-        self.file_name = file_name
+        self._file_name = file_name
 
     # paths, walls, start(hero), end(guardian) and items position
         self._paths = set()
@@ -45,7 +45,7 @@ class Map:
 
     def _load_from_file(self):
         """Load the map structure from file."""
-        with open(self.file_name) as infile:
+        with open(self._file_name) as infile:
             for x, line in enumerate(infile):                
                 for y, char in enumerate(line):
                     if char == PATH_CHAR:
@@ -79,12 +79,27 @@ class Map:
 
     def _create_items(self):
         """Create the 3 items on the maps"""
-        needle = Item(self, IMG_NEEDLE)
+        needle = Item(self, IMG_NEEDLE, 'needle')
         self.items.append(needle)
-        ether = Item(self, IMG_ETHER)
+        ether = Item(self, IMG_ETHER, 'ether')
         self.items.append(ether)        
-        tube = Item(self, IMG_TUBE)
+        tube = Item(self, IMG_TUBE, 'tube')        
         self.items.append(tube)
+    
+    def items_collision(self):
+        """Manage hero collisions with items."""
+        for item in self.items:
+            if item.position == self.hero.position:
+                self.hero.items = item.name
+                self.items.remove(item)
+                return (True, item.name)
+        return (False, '')
+
+    def is_guardian_collision(self):
+        """Return True if hero hits guardian else false."""        
+        if self.hero.position == self.end:            
+            return True
+        return False           
 
 
 def main():    

@@ -3,10 +3,11 @@ from .position import Position
 from settings import IMG_WIDTH
 
 class Item:
-    def __init__(self, map, image):
+    def __init__(self, map, image, name):
         self.map = map
         self.position = map.get_item_position()
-        self.img = load(image).convert()            
+        self.img = load(image).convert()
+        self.name = name            
 
     @property
     def img_position(self):
