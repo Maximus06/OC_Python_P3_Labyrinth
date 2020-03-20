@@ -12,6 +12,9 @@ IMG_DIR = APP_DIR + '/ressources/images/'
 SOUND_DIR = APP_DIR + '/ressources/sound/'
 SOUND_VICTORY = SOUND_DIR + 'MacGyver.mp3'
 
+# graphic librairy
+GRAPH_LIB = 'pygame'
+
 # Message
 HELP_MSG = 'Press Q to Quit, F5 to reset, Arrow keys to move.'
 INIT_MSG = 'MacGyver must pick up 3 objects before leaving.'

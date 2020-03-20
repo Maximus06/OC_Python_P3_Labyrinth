@@ -1,11 +1,14 @@
-import pygame
 from sys import exit
+
+import pygame
+
 from .map import Map
 from .hero import Hero
 from .item import Item
-from settings import IMG_GARDIAN, IMG_WALL, IMG_WIDTH, IMG_NEEDLE, IMG_ETHER, IMG_TUBE, TICK
-from settings import WIN_COLOR, LOSE_COLOR, SOUND_VICTORY, WIN_MSG, LOSE_MSG
+from settings import (IMG_GARDIAN, IMG_WALL, IMG_WIDTH, IMG_NEEDLE, IMG_ETHER, IMG_TUBE, TICK,
+                      WIN_COLOR, LOSE_COLOR, SOUND_VICTORY, WIN_MSG, LOSE_MSG)
 from .views import View
+from .factory import create_view
 
 class Game:
     """The Game class manages the game flow"""
@@ -25,7 +28,8 @@ class Game:
     @classmethod
     def init(cls):        
         cls.map = Map('labyrinth.txt')        
-        cls.view = View(cls.map)        
+        # cls.view = View(cls.map)        
+        cls.view = create_view(cls.map)        
 
     @classmethod
     def _check_events(cls):
