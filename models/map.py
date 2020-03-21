@@ -1,14 +1,25 @@
+"""This module contains the Map class"""
+
 from random import randint
 import os
+
 import pygame
-from .position import Position
-from settings import PATH_CHAR, WALL_CHAR, START_CHAR, END_CHAR
-from settings import IMG_ETHER, IMG_NEEDLE, IMG_TUBE
+
+from settings import (PATH_CHAR, WALL_CHAR, START_CHAR, END_CHAR, IMG_ETHER,
+                     IMG_NEEDLE, IMG_TUBE)
 from .hero import Hero
 from .item import Item
+from .position import Position
 
 class Map:
+    """This class represents the labyrinth"""
     def __init__(self, file_name):
+        """Initialize the map attributs
+
+        Args:
+            file_name: String of the text file containing the structure of the 
+            labyrinth.
+        """
         self._file_name = file_name
 
     # paths, walls, start(hero), end(guardian) and items position
@@ -16,7 +27,7 @@ class Map:
         self._start = set()
         self._end = set()
         self._wall = set()
-        self._items = set() # To mémorize the items position already created
+        self._items_created = set() # To mémorize the items position already created
 
         # Load the structure of the labyrinth
         self._load_from_file()
@@ -29,18 +40,21 @@ class Map:
         self._create_items()
 
     def __contains__(self, position):
-        """Check if a position is in paths set. (is a valid path)."""
+        """Return True if a position is in paths set. (is a valid path)."""
         return position in self._paths
 
     @property
     def start(self):
+        """Return a Position object for the hero start position."""
         return list(self._start)[0]
 
     @property
     def end(self):
+        """Return a Position object for the guardian position."""
         return list(self._end)[0]
 
     def is_valid_path(self, position):
+        """Return True if the position given is a valid path."""
         return position in self._paths
 
     def _load_from_file(self):
@@ -61,6 +75,7 @@ class Map:
     
     def get_item_position(self):
         """Return a random position for an item.
+
         The position returned must be in the valid path positions.
         Hero, guardian and already affected items position are excluded.
 
@@ -68,12 +83,12 @@ class Map:
         """
 
         # Take the valid position path minus Start, End and items position
-        valid_pos_item = self._paths - self._start - self._end - self._items
+        valid_pos_item = self._paths - self._start - self._end - self._items_created
         len_pos_item = len(valid_pos_item)        
         position = randint(0, len_pos_item - 1)        
         pos = list(valid_pos_item)[position]
         # Add this position to the items set to not choose it next call
-        self._items.add(pos)
+        self._items_created.add(pos)
 
         return pos
 
@@ -99,29 +114,4 @@ class Map:
         """Return True if hero hits guardian else false."""        
         if self.hero.position == self.end:            
             return True
-        return False           
-
-
-def main():    
-    my_map = Map('labyrinth.txt')
-    
-    # print("set of wall")
-    # print(my_map._wall)
-    print('start', my_map.start, type(my_map.start))
-    print('end', my_map._end, type(my_map._end))
-
-    my_map.get_item_position()
-    my_map.get_item_position()
-    my_map.get_item_position()
-
-    print(f'\nos.getcwd =', os.getcwd())
-
-if __name__ == '__main__':
-    main()
-
-
-
-
-
-
-
+        return False

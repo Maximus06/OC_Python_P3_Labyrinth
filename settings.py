@@ -1,4 +1,4 @@
-"""Module for the application contants"""
+"""Module for the application contants and parameters setting"""
 
 import os
 

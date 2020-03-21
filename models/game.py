@@ -1,3 +1,5 @@
+"""This module contains the Game class."""
+
 from sys import exit
 
 import pygame
@@ -14,8 +16,9 @@ class Game:
     """The Game class manages the game flow"""
 
     @classmethod
-    def run(cls):        
-        cls.init()
+    def run(cls):
+        """The run method is the main loop for the game."""        
+        cls._init()
 
         cls.play = True
         cls.end_game = False
@@ -26,14 +29,15 @@ class Game:
             cls.view.render()        
     
     @classmethod
-    def init(cls):        
+    def _init(cls):
+        """The init method initialize the Map and View Object"""        
         cls.map = Map('labyrinth.txt')        
         # cls.view = View(cls.map)        
         cls.view = create_view(cls.map)        
 
     @classmethod
     def _check_events(cls):
-        """Respond to keypresses and mouse events."""
+        """Respond to keypresses events."""
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 cls.play = False
@@ -82,6 +86,7 @@ class Game:
 
     @classmethod
     def _check_victory(cls):
+        """Determine if the game is won or lost"""
         objects_victory = {'needle', 'tube', 'ether'}
         missing_objects = objects_victory - cls.map.hero.items        
         if len(missing_objects) == 0:            

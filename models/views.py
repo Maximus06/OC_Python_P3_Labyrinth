@@ -1,13 +1,22 @@
+"""This module contains the View class"""
+
 import pygame
-from pygame import locals as pg_var
-from settings import IMG_HERO, IMG_GARDIAN, IMG_WALL, IMG_WIDTH, IMG_NEEDLE, IMG_ETHER, IMG_TUBE
-from settings import IMG_WIDTH, SCREEN_HEIGHT, SCREEN_WIDTH, BG_COLOR, HELP_MSG, INIT_MSG
+from pygame.locals import color as pg_color
+
+from settings import (IMG_HERO, IMG_GARDIAN, IMG_WALL, IMG_WIDTH, IMG_NEEDLE,
+                     IMG_ETHER, IMG_TUBE, IMG_WIDTH, SCREEN_HEIGHT,
+                     SCREEN_WIDTH, BG_COLOR, HELP_MSG, INIT_MSG)
 
 class View:
-    """The class view is responsible for render graphism"""
+    """This class is responsible for render graphism using pygame librairy"""
+
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 
     def __init__(self, map):
+        """initialize the class attributs.
+        Args:
+            map: a Map object representing the labyrinth.
+        """
         self.map = map
         self.hero_img = pygame.image.load(IMG_HERO).convert()
         self.wall_img = pygame.image.load(IMG_WALL).convert()
@@ -19,21 +28,22 @@ class View:
 
         self.font_help = pygame.font.SysFont("arial", 16, bold=True)        
         self.font_text = pygame.font.SysFont("arial", 18, bold=True)        
-        self._help_to_print = self.font_help.render(HELP_MSG, True, pg_var.color.THECOLORS['chocolate'], BG_COLOR)  
-        self._text_to_print = self.font_text.render(INIT_MSG, True, pg_var.color.THECOLORS['blue'], BG_COLOR)  
+        self._help_to_print = self.font_help.render(HELP_MSG, True, pg_color.THECOLORS['chocolate'], BG_COLOR)  
+        self._text_to_print = self.font_text.render(INIT_MSG, True, pg_color.THECOLORS['blue'], BG_COLOR)  
     
     def set_text_to_print(self, message, color='blue'):
-        """Create a surface message"""
-        self._text_to_print = self.font_text.render(message, True, pg_var.color.THECOLORS[color], BG_COLOR)
+        """Create a surface for messages
 
-    @classmethod
-    def set_video_mode(cls):
-        cls.screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))        
+        Args:
+            message: String of the message
+            color: String of the color (default = blue)
+        """
+        self._text_to_print = self.font_text.render(message, True, pg_color.THECOLORS[color], BG_COLOR)
 
-    def render(self):        
+    def render(self):
+        """Display the game(labyrinth, peoples, items etc...)"""        
         #background color
-        View.screen.fill(BG_COLOR)
-        # View.print_surface.fill(BG_COLOR)
+        View.screen.fill(BG_COLOR)        
 
         # Draw the wall
         for wall in self.map._wall:
@@ -59,14 +69,6 @@ class View:
         View.screen.blit(self._text_to_print, (1, 475))
 
         # Refresh
-        pygame.display.flip()
-
-    def print_message(self, message):
-        print('dans printq')
-        font = pygame.font.SysFont("arial", 12, bold=True)
-        text = self.font.render(message, True, pg_var.color.THECOLORS['blue'], BG_COLOR)
-                               
-        self.screen.blit(text, (1, 451))
         pygame.display.flip()
 
             

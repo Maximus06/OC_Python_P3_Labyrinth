@@ -1,18 +1,29 @@
+"""This module contains the Hero class"""
+
 from pygame.image import load
+
 from .position import Position
 from settings import IMG_WIDTH, IMG_HERO
 
 class Hero:
+    """This class represents MacGyver"""
     def __init__(self, map):
+        """Init the class attributs"""
         self.map = map
-        self.position = self.map.start
+        self.position = self.map.start        
         self._items = set()
 
     @property
     def items(self):
+        """Return the Items set of the hero"""
         return self._items
-    @items.setter       
+
+    @items.setter
     def items(self, value):
+        """Add a item to the items set.
+        Args:
+            value:
+        """
         self._items.add(value)
 
     @property
@@ -29,7 +40,12 @@ class Hero:
         return Position(x, y)
 
     def move(self, direction):
-        # getattr permet d'appeler une méthode de l'objet position (up, down, left ou right)        
+        """Update the Hero position.
+        Args:
+            direction: String of the direction (up, down, left, right).
+        """
+        # TODO : make direction a enum
+        # get the method from position object
         method_position = getattr(self.position, direction)
         new_position = method_position()        
         if new_position in self.map:

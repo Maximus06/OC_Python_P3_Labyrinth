@@ -7,7 +7,7 @@ import pygame
 from models.game import Game
 
 def main():
-    """This function launch the game"""
+    """This function launch the game."""
     pygame.init()
     Game.run()
     pygame.quit()    
