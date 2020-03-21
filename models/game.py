@@ -9,7 +9,7 @@ from .hero import Hero
 from .item import Item
 from settings import (IMG_GARDIAN, IMG_WALL, IMG_WIDTH, IMG_NEEDLE, IMG_ETHER, IMG_TUBE, TICK,
                       WIN_COLOR, LOSE_COLOR, SOUND_VICTORY, WIN_MSG, LOSE_MSG)
-from .views import View
+from views.view import View
 from .factory import create_view
 
 class Game:

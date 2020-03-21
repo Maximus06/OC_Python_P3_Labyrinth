@@ -4,7 +4,7 @@ patern.
 from pygame.image import load
 
 from settings import GRAPH_LIB
-from .views import View
+from views.view import View
 
 def create_view(map):
     """Create a view object.
