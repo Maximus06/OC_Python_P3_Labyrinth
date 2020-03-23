@@ -1,23 +1,22 @@
 """This module contains the Map class"""
 
 from random import randint
-import os
-
-import pygame
 
 from settings import (PATH_CHAR, WALL_CHAR, START_CHAR, END_CHAR, IMG_ETHER,
-                     IMG_NEEDLE, IMG_TUBE)
+                      IMG_NEEDLE, IMG_TUBE)
 from .hero import Hero
 from .item import Item
 from .position import Position
 
+
 class Map:
     """This class represents the labyrinth"""
+
     def __init__(self, file_name):
         """Initialize the map attributs
 
         Args:
-            file_name: String of the text file containing the structure of the 
+            file_name: String of the text file containing the structure of the
             labyrinth.
         """
         self._file_name = file_name
@@ -27,7 +26,8 @@ class Map:
         self._start = set()
         self._end = set()
         self._wall = set()
-        self._items_created = set() # To mémorize the items position already created
+        # To mémorize the items position already created
+        self._items_created = set()
 
         # Load the structure of the labyrinth
         self._load_from_file()
@@ -60,7 +60,7 @@ class Map:
     def _load_from_file(self):
         """Load the map structure from file."""
         with open(self._file_name) as infile:
-            for x, line in enumerate(infile):                
+            for x, line in enumerate(infile):
                 for y, char in enumerate(line):
                     if char == PATH_CHAR:
                         self._paths.add(Position(x, y))
@@ -72,7 +72,7 @@ class Map:
                     elif char == END_CHAR:
                         self._paths.add(Position(x, y))
                         self._end.add(Position(x, y))
-    
+
     def get_item_position(self):
         """Return a random position for an item.
 
@@ -83,9 +83,11 @@ class Map:
         """
 
         # Take the valid position path minus Start, End and items position
-        valid_pos_item = self._paths - self._start - self._end - self._items_created
-        len_pos_item = len(valid_pos_item)        
-        position = randint(0, len_pos_item - 1)        
+        valid_pos_item = self._paths - self._start - self._end \
+            - self._items_created
+
+        len_pos_item = len(valid_pos_item)
+        position = randint(0, len_pos_item - 1)
         pos = list(valid_pos_item)[position]
         # Add this position to the items set to not choose it next call
         self._items_created.add(pos)
@@ -97,10 +99,10 @@ class Map:
         needle = Item(self, IMG_NEEDLE, 'needle')
         self.items.append(needle)
         ether = Item(self, IMG_ETHER, 'ether')
-        self.items.append(ether)        
-        tube = Item(self, IMG_TUBE, 'tube')        
+        self.items.append(ether)
+        tube = Item(self, IMG_TUBE, 'tube')
         self.items.append(tube)
-    
+
     def items_collision(self):
         """Manage hero collisions with items."""
         for item in self.items:
@@ -111,7 +113,7 @@ class Map:
         return (False, '')
 
     def is_guardian_collision(self):
-        """Return True if hero hits guardian else false."""        
-        if self.hero.position == self.end:            
+        """Return True if hero hits guardian else false."""
+        if self.hero.position == self.end:
             return True
         return False

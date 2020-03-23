@@ -1,4 +1,4 @@
-"""This module contains functions implementing the factory method design 
+"""This module contains functions implementing the factory method design
 patern.
 """
 from pygame.image import load
@@ -6,10 +6,11 @@ from pygame.image import load
 from settings import GRAPH_LIB
 from views.view import View
 
+
 def create_view(map):
     """Create a view object.
-    
-    This function is a factory  method: its create a view object depending on 
+
+    This function is a factory  method: its create a view object depending on
     GRAPH_LIB constant in settings.py.
 
     Args:
@@ -28,10 +29,11 @@ def create_view(map):
 
     return view
 
+
 def create_item_representation(image):
     """Return a representation of an object.
 
-    This function create a representation for the Item object. It's can be a 
+    This function create a representation for the Item object. It's can be a
     image or just a string dépending on the GRAPH_LIB constant in settings.py.
 
     Args:
@@ -41,15 +43,15 @@ def create_item_representation(image):
         ValueError if the value of GRAPH_LIB is not manage
 
     Returns:
-        A Surface object or a string.    
+        A Surface object or a string.
     """
 
     if GRAPH_LIB == "pygame":
-        representation = load(image).convert()        
+        representation = load(image).convert()
     elif GRAPH_LIB == "text":
         representation = str(image)
     else:
-        raise ValueError(f'Cannot create a Item representation from {GRAPH_LIB}')
+        msg = f'Cannot create a Item representation from {GRAPH_LIB}'
+        raise ValueError(msg)
 
     return representation
-
