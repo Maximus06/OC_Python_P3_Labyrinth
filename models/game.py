@@ -9,16 +9,21 @@ from .factory import create_view
 
 
 class Game:
-    """The Game class manages the game flow"""
+    """The Game class manages the game flow
+    
+    Public Methods:
+        - run: Launch the game.
+        - reset: Reset and launch a new game.
+    """
 
     @classmethod
     def run(cls):
         """The run method is the main loop for the game."""
         cls._init()
 
-        cls.play = True
-        cls.end_game = False
-        while cls.play:
+        cls._play = True
+        cls._end_game = False
+        while cls._play:
             # Limit the tick to x frames by secondes
             pygame.time.Clock().tick(TICK)
             cls._check_events()
@@ -36,7 +41,7 @@ class Game:
         """Respond to keypresses events."""
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                cls.play = False
+                cls._play = False
             elif event.type == pygame.KEYDOWN:
                 cls._check_keydown_events(event)
 
@@ -48,12 +53,12 @@ class Game:
             cls.reset()
         # Use unicode here cause pygame map in querty mode
         elif event.unicode == 'q' or event.unicode == 'Q':
-            cls.play = False
+            cls._play = False
         elif event.unicode == 's' or event.unicode == 'S':
             pygame.mixer.music.stop()
 
         # game is over, we don't want to check the direction keys
-        if cls.end_game:
+        if cls._end_game:
             return
 
         if event.key == pygame.K_RIGHT:
@@ -95,10 +100,10 @@ class Game:
             cls.view.set_text_to_print(
                 f'{LOSE_MSG} {missing_objects}', LOSE_COLOR)
 
-        cls.end_game = True
+        cls._end_game = True
 
     @classmethod
     def reset(cls):
-        """This method launch a new game"""
+        """This method reset and launch a new game"""
         del cls.map
         cls.run()

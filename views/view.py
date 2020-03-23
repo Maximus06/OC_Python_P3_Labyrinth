@@ -17,20 +17,30 @@ class View:
         Args:
             map: a Map object representing the labyrinth.
         """
-        self.map = map
-        self.hero_img = pygame.image.load(IMG_HERO).convert()
-        self.wall_img = pygame.image.load(IMG_WALL).convert()
+        self._map = map
+        self._hero_img = pygame.image.load(IMG_HERO).convert()
+        self._wall_img = pygame.image.load(IMG_WALL).convert()
+        self._guardian_img = pygame.image.load(IMG_GARDIAN).convert()        
         # Set transparency for white color
-        self.hero_img.set_colorkey((255,255,255)) 
-        self.wall_img.set_colorkey((255,255,255)) 
-        self.guardian_img = pygame.image.load(IMG_GARDIAN).convert()        
+        self._hero_img.set_colorkey((255,255,255)) 
+        self._guardian_img.set_colorkey((255,255,255)) 
         pygame.display.set_caption("Mac Gyver Escape Game")
 
-        self.font_help = pygame.font.SysFont("arial", 16, bold=True)        
-        self.font_text = pygame.font.SysFont("arial", 18, bold=True)        
-        self._help_to_print = self.font_help.render(HELP_MSG, True, pg_color.THECOLORS['chocolate'], BG_COLOR)  
-        self._text_to_print = self.font_text.render(INIT_MSG, True, pg_color.THECOLORS['blue'], BG_COLOR)  
-    
+        self._font_help = pygame.font.SysFont("arial", 16, bold=True)        
+        self._font_text = pygame.font.SysFont("arial", 18, bold=True)        
+        self._help_to_print = self._font_help.render(HELP_MSG, True, pg_color.THECOLORS['chocolate'], BG_COLOR)  
+        self._text_to_print = self._font_text.render(INIT_MSG, True, pg_color.THECOLORS['blue'], BG_COLOR)  
+
+    @property
+    def guardian_img(self):
+        """Return the surface for the guardian image"""
+        return self._guardian_img    
+
+    @guardian_img.setter
+    def guardian_img(self, value):
+        """Set the surface for the guardian image"""
+        self._guardian_img = value
+
     def set_text_to_print(self, message, color='blue'):
         """Create a surface for messages
 
@@ -38,7 +48,7 @@ class View:
             message: String of the message
             color: String of the color (default = blue)
         """
-        self._text_to_print = self.font_text.render(message, True, pg_color.THECOLORS[color], BG_COLOR)
+        self._text_to_print = self._font_text.render(message, True, pg_color.THECOLORS[color], BG_COLOR)
 
     def render(self):
         """Display the game(labyrinth, peoples, items etc...)"""        
@@ -46,23 +56,23 @@ class View:
         View.screen.fill(BG_COLOR)        
 
         # Draw the wall
-        for wall in self.map._wall:
+        for wall in self._map.wall:
             x, y = wall.position            
-            View.screen.blit(self.wall_img, (y * IMG_WIDTH, x * IMG_WIDTH))
-        
+            View.screen.blit(self._wall_img, (y * IMG_WIDTH, x * IMG_WIDTH))        
+
         # Draw the hero
-        x, y = self.map.hero.img_position        
-        View.screen.blit(self.hero_img, (y, x))
-        
+        x, y = self._map.hero.img_position        
+        View.screen.blit(self._hero_img, (y, x))
+
         # Draw the guardian
-        if self.guardian_img != None:
-            x, y = self.map.end
-            View.screen.blit(self.guardian_img, (y * IMG_WIDTH, x * IMG_WIDTH))
+        if self._guardian_img != None:
+            x, y = self._map.end
+            View.screen.blit(self._guardian_img, (y * IMG_WIDTH, x * IMG_WIDTH))
 
         # Draw the Items
-        for item in self.map.items:
+        for item in self._map.items:
             x, y = item.img_position        
-            View.screen.blit(item.img , (y, x))
+            View.screen.blit(item.image , (y, x))
 
         # Draw the messages surface        
         View.screen.blit(self._help_to_print, (1, 451))

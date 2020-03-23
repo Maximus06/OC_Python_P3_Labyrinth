@@ -10,8 +10,8 @@ class Hero:
 
     def __init__(self, map):
         """Init the class attributs"""
-        self.map = map
-        self.position = self.map.start
+        self._map = map
+        self._position = self._map.start
         self._items = set()
 
     @property
@@ -23,9 +23,14 @@ class Hero:
     def items(self, value):
         """Add a item to the items set.
         Args:
-            value:
+            value: String of the item
         """
         self._items.add(value)
+
+    @property
+    def position(self):
+        """Return a the Position object of the hero"""
+        return self._position
 
     @property
     def item_number(self):
@@ -35,7 +40,7 @@ class Hero:
     @property
     def img_position(self):
         """Return the computed Position of the hero image"""
-        x, y = self.position.position
+        x, y = self._position.position
         x *= IMG_WIDTH
         y *= IMG_WIDTH
         return Position(x, y)
@@ -47,7 +52,7 @@ class Hero:
         """
         # TODO : make direction a enum
         # get the method from position object
-        method_position = getattr(self.position, direction)
+        method_position = getattr(self._position, direction)
         new_position = method_position()
-        if new_position in self.map:
-            self.position = new_position
+        if new_position in self._map:
+            self._position = new_position

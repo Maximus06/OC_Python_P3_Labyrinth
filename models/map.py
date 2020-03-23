@@ -26,22 +26,32 @@ class Map:
         self._start = set()
         self._end = set()
         self._wall = set()
-        # To mémorize the items position already created
-        self._items_created = set()
 
         # Load the structure of the labyrinth
         self._load_from_file()
 
         # MacGyver
-        self.hero = Hero(self)
+        self._hero = Hero(self)
 
         # The items
-        self.items = []
+        self._items = []
+        # To mémorize the items position already created
+        self._items_created = set()
         self._create_items()
 
     def __contains__(self, position):
         """Return True if a position is in paths set. (is a valid path)."""
         return position in self._paths
+
+    @property
+    def hero(self):
+        """Return the Hero object."""
+        return self._hero
+
+    @property
+    def items(self):
+        """Return a List of map Items."""
+        return self._items
 
     @property
     def start(self):
@@ -52,6 +62,11 @@ class Map:
     def end(self):
         """Return a Position object for the guardian position."""
         return list(self._end)[0]
+
+    @property
+    def wall(self):
+        """Return a set of wall position"""
+        return self._wall
 
     def is_valid_path(self, position):
         """Return True if the position given is a valid path."""
@@ -73,7 +88,7 @@ class Map:
                         self._paths.add(Position(x, y))
                         self._end.add(Position(x, y))
 
-    def get_item_position(self):
+    def get_random_position(self):
         """Return a random position for an item.
 
         The position returned must be in the valid path positions.
@@ -97,23 +112,27 @@ class Map:
     def _create_items(self):
         """Create the 3 items on the maps"""
         needle = Item(self, IMG_NEEDLE, 'needle')
-        self.items.append(needle)
+        self._items.append(needle)
         ether = Item(self, IMG_ETHER, 'ether')
-        self.items.append(ether)
+        self._items.append(ether)
         tube = Item(self, IMG_TUBE, 'tube')
-        self.items.append(tube)
+        self._items.append(tube)
 
     def items_collision(self):
-        """Manage hero collisions with items."""
-        for item in self.items:
-            if item.position == self.hero.position:
-                self.hero.items = item.name
-                self.items.remove(item)
+        """Manage hero collisions with items.
+        Return True and item name if a collision occurs between hero and and item.
+        """
+        for item in self._items:
+            if item.position == self._hero.position:
+                # Add the item to the items hero
+                self._hero.items = item.name
+                # Del the item from the map
+                self._items.remove(item)
                 return (True, item.name)
         return (False, '')
 
     def is_guardian_collision(self):
         """Return True if hero hits guardian else false."""
-        if self.hero.position == self.end:
+        if self._hero.position == self.end:
             return True
         return False
