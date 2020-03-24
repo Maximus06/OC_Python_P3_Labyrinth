@@ -9,9 +9,9 @@ APP_DIR = os.getcwd()
 MAP_FILE = "labyrinth.txt"
 
 # Image directory
-IMG_DIR = APP_DIR + '/ressources/images/'
+IMG_DIR = APP_DIR + '/.ressources/images/'
 # Sound directory
-SOUND_DIR = APP_DIR + '/ressources/sound/'
+SOUND_DIR = APP_DIR + '/.ressources/sound/'
 SOUND_VICTORY = SOUND_DIR + 'MacGyver.mp3'
 
 # graphic librairy

@@ -4,7 +4,7 @@ from sys import exit
 
 import pygame
 
-from models.game import Game
+from controllers.game import Game
 
 
 def main():

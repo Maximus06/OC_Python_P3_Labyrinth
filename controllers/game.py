@@ -2,10 +2,10 @@
 
 import pygame
 
-from .map import Map
+from models.map import Map
 from settings import (TICK, WIN_COLOR, LOSE_COLOR, SOUND_VICTORY, WIN_MSG,
                       LOSE_MSG)
-from .factory import create_view
+from models.factory import create_view
 
 
 class Game:
