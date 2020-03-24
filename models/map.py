@@ -74,19 +74,24 @@ class Map:
 
     def _load_from_file(self):
         """Load the map structure from file."""
-        with open(self._file_name) as infile:
-            for x, line in enumerate(infile):
-                for y, char in enumerate(line):
-                    if char == PATH_CHAR:
-                        self._paths.add(Position(x, y))
-                    elif char == WALL_CHAR:
-                        self._wall.add(Position(x, y))
-                    elif char == START_CHAR:
-                        self._paths.add(Position(x, y))
-                        self._start.add(Position(x, y))
-                    elif char == END_CHAR:
-                        self._paths.add(Position(x, y))
-                        self._end.add(Position(x, y))
+        try:
+            with open(self._file_name) as infile:
+                for x, line in enumerate(infile):
+                    for y, char in enumerate(line):
+                        if char == PATH_CHAR:
+                            self._paths.add(Position(x, y))
+                        elif char == WALL_CHAR:
+                            self._wall.add(Position(x, y))
+                        elif char == START_CHAR:
+                            self._paths.add(Position(x, y))
+                            self._start.add(Position(x, y))
+                        elif char == END_CHAR:
+                            self._paths.add(Position(x, y))
+                            self._end.add(Position(x, y))
+        except FileNotFoundError:
+            msg = 'The game could not be loaded because the file '
+            msg += f'{self._file_name} was not found.'
+            raise FileNotFoundError(msg)
 
     def get_random_position(self):
         """Return a random position for an item.
@@ -120,7 +125,8 @@ class Map:
 
     def items_collision(self):
         """Manage hero collisions with items.
-        Return True and item name if a collision occurs between hero and and item.
+        Return True and item name if a collision occurs between hero and and
+        item.
         """
         for item in self._items:
             if item.position == self._hero.position:

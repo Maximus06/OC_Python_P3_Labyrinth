@@ -6,6 +6,8 @@ import os
 # app directory
 APP_DIR = os.getcwd()
 
+MAP_FILE = "labyrinth.txt"
+
 # Image directory
 IMG_DIR = APP_DIR + '/ressources/images/'
 # Sound directory
@@ -48,6 +50,10 @@ IMG_TUBE = IMG_DIR + 'tube.png'
 IMG_NEEDLE = IMG_DIR + 'needle.png'
 # Image ether
 IMG_ETHER = IMG_DIR + 'ether.png'
+
+# Image error (if not found)
+IMG_ERROR = ('OOps, an error occurs cause a image file was not found. Error '
+            'detail: ')
 
 # means for the char in the text file
 PATH_CHAR = 'p'

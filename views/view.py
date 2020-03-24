@@ -2,10 +2,11 @@
 
 import pygame
 from pygame.locals import color as pg_color
+from pygame import error as pg_error
 
 from settings import (IMG_HERO, IMG_GARDIAN, IMG_WALL, IMG_WIDTH, IMG_NEEDLE,
                      IMG_ETHER, IMG_TUBE, IMG_WIDTH, SCREEN_HEIGHT,
-                     SCREEN_WIDTH, BG_COLOR, HELP_MSG, INIT_MSG)
+                     SCREEN_WIDTH, BG_COLOR, HELP_MSG, INIT_MSG, IMG_ERROR)
 
 class View:
     """This class is responsible for render graphism using pygame librairy"""
@@ -18,9 +19,13 @@ class View:
             map: a Map object representing the labyrinth.
         """
         self._map = map
-        self._hero_img = pygame.image.load(IMG_HERO).convert()
-        self._wall_img = pygame.image.load(IMG_WALL).convert()
-        self._guardian_img = pygame.image.load(IMG_GARDIAN).convert()        
+        try:
+            self._hero_img = pygame.image.load(IMG_HERO).convert()
+            self._wall_img = pygame.image.load(IMG_WALL).convert()
+            self._guardian_img = pygame.image.load(IMG_GARDIAN).convert()
+        except pg_error as err:
+            raise FileNotFoundError(IMG_ERROR + err.args[0])
+
         # Set transparency for white color
         self._hero_img.set_colorkey((255,255,255)) 
         self._guardian_img.set_colorkey((255,255,255)) 
@@ -80,6 +85,3 @@ class View:
 
         # Refresh
         pygame.display.flip()
-
-            
-        

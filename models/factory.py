@@ -2,8 +2,9 @@
 patern.
 """
 from pygame.image import load
+from pygame import error as pg_error
 
-from settings import GRAPH_LIB
+from settings import GRAPH_LIB, IMG_ERROR
 from views.view import View
 
 
@@ -47,7 +48,11 @@ def create_item_representation(image):
     """
 
     if GRAPH_LIB == "pygame":
-        representation = load(image).convert()
+        try:
+            representation = load(image).convert()
+        except pg_error as err:
+            raise FileNotFoundError(IMG_ERROR + err.args[0])
+
     elif GRAPH_LIB == "text":
         representation = str(image)
     else:

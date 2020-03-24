@@ -8,9 +8,14 @@ from models.game import Game
 
 
 def main():
-    """This function launch the game."""
+    """This function is the main function of the game."""
     pygame.init()
-    Game.run()
+
+    try:
+        Game.run()
+    except FileNotFoundError as err:
+        print(err.args[0])
+
     pygame.quit()
     exit()
 

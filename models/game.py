@@ -10,7 +10,7 @@ from .factory import create_view
 
 class Game:
     """The Game class manages the game flow
-    
+
     Public Methods:
         - run: Launch the game.
         - reset: Reset and launch a new game.
