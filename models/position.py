@@ -2,7 +2,17 @@
 
 
 class Position:
-    """Represent a position object with x and y coordinates"""
+    """Represent a position object with x and y coordinates.
+
+    Properties:
+        - position: return the position (x, y).
+
+    Public Methodes:
+        - up: move the postion up.
+        - down: move the postion down.
+        - left: move the postion left.
+        - right: move the postion right.
+    """
 
     def __init__(self, x, y):
         self._position = (x, y)

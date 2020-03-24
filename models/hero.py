@@ -6,10 +6,19 @@ from settings import IMG_WIDTH
 
 
 class Hero:
-    """This class represents MacGyver"""
+    """This class represents MacGyver
+
+    Properties:
+        - items: get and set items for the hero.
+        - item_number: Return the number of items.
+        - img_position: return position of the image.
+
+    Public Methods:
+        - move: update the position hero.
+    """
 
     def __init__(self, map):
-        """Init the class attributs"""
+        """Init the class attributes"""
         self._map = map
         self._position = self._map.start
         self._items = set()

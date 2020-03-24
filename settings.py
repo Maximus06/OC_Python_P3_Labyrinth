@@ -6,7 +6,7 @@ import os
 # app directory
 APP_DIR = os.getcwd()
 
-MAP_FILE = "labyrinth.txt"
+MAP_FILE = APP_DIR + '/.ressources/data/labyrinth.txt'
 
 # Image directory
 IMG_DIR = APP_DIR + '/.ressources/images/'

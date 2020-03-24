@@ -52,7 +52,6 @@ def create_item_representation(image):
             representation = load(image).convert()
         except pg_error as err:
             raise FileNotFoundError(IMG_ERROR + err.args[0])
-
     elif GRAPH_LIB == "text":
         representation = str(image)
     else:

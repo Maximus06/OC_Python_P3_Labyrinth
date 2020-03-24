@@ -6,7 +6,14 @@ from .factory import create_item_representation
 
 
 class Item:
-    """Represent a item on the map"""
+    """Represent a item on the map
+
+    Properties:
+        - image: return the representation of the item on the screen.
+        - position: return the labyrinth position of the item.
+        - img_position: return the image position.
+        - name: set and get name item.
+    """
 
     def __init__(self, map, image, name):
         self._map = map

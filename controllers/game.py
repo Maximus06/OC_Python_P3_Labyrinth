@@ -4,7 +4,7 @@ import pygame
 
 from models.map import Map
 from settings import (TICK, WIN_COLOR, LOSE_COLOR, SOUND_VICTORY, WIN_MSG,
-                      LOSE_MSG)
+                      LOSE_MSG, MAP_FILE)
 from models.factory import create_view
 
 
@@ -32,8 +32,8 @@ class Game:
     @classmethod
     def _init(cls):
         """The init method initialize the Map and View Object"""
-        cls.map = Map('labyrinth.txt')
-        # call the factory method to call the view
+        cls.map = Map(MAP_FILE)
+        # call the factory method to create the view
         cls.view = create_view(cls.map)
 
     @classmethod

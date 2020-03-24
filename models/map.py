@@ -10,10 +10,25 @@ from .position import Position
 
 
 class Map:
-    """This class represents the labyrinth"""
+    """This class represents the labyrinth
+
+    Public Attributes:
+        - start: start position for the hero
+        - end: end position is the end position for the game and the position
+        for the guardian.
+        - hero: return the hero.
+        - items: return the labyrinth items
+        - walls: return a set of walls position.
+
+    Public Methods:
+        - is_valid_path: check if a position is a valid path
+        - get_random_position: Return a random position in the valid paths.
+        - items_collistion: handle the collisions between hero and items.
+        - is_guardian_collision: return True if the hero meet the guardian.
+    """
 
     def __init__(self, file_name):
-        """Initialize the map attributs
+        """Initialize the map attributes
 
         Args:
             file_name: String of the text file containing the structure of the
