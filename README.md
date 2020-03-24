@@ -30,7 +30,7 @@ Ce package contient les classes représentant les entités principales du jeu:
 * **map.py** : contient la classe qui représente le labyrinthe.
 * **hero.py** : contient la classe qui représente MacGyver.
 * **item.py** : contient la classe qui représente un objet du labyrinthe.
-* **position.py** : représente une position dans le labyrinth.
+* **position.py** : représente une position dans le labyrinthe.
 * **factory.py** : contient les 'factories methods' pour la classe view et l'image d'un item.
 
 ### Le package views
